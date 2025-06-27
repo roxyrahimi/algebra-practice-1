@@ -1,13 +1,27 @@
 import React, { useState, useEffect } from 'react';
 
 function generateQuestion() {
-  const a = Math.floor(Math.random() * 9) + 1;
-  const b = Math.floor(Math.random() * 9) + 1;
-  const c = Math.floor(Math.random() * 9) + 1;
-  const d = Math.floor(Math.random() * 20) - 10;
+  let a, b, c, d, equation, correctAnswer;
 
-  const correctAnswer = (d - b / c) / -a;
-  const equation = `-${a}x + 1/${c} = -${b}x + ${d}`;
+  while (true) {
+    a = Math.floor(Math.random() * 9) + 1;
+    b = Math.floor(Math.random() * 9) + 1;
+    c = Math.floor(Math.random() * 9) + 1;
+    d = Math.floor(Math.random() * 20) - 10;
+
+    // equation: -a*x + 1/c = -b*x + d
+    const coeffXLeft = -a;
+    const coeffXRight = -b;
+
+    if (coeffXLeft === coeffXRight) continue; // would cancel x
+
+    correctAnswer = (d - 1 / c) / (coeffXLeft - coeffXRight);
+    if (!isFinite(correctAnswer)) continue;
+
+    equation = `-${a}x + 1/${c} = -${b}x + ${d}`;
+    break;
+  }
+
   return { equation, answer: correctAnswer };
 }
 
