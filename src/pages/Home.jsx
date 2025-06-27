@@ -16,14 +16,15 @@ function Home() {
   return (
     <div className="container">
       <div className="card">
-        <h1>Welcome to Algebra Trainer</h1>
-        <p>Enter your name or email to begin:</p>
+        <h1>Welcome to Algebra Practice</h1>
+        <p>Please enter your name or email to begin:</p>
         <form onSubmit={handleSubmit}>
           <input
             type="text"
             placeholder="Your name or email"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            required
           />
           <button type="submit">Continue</button>
         </form>
@@ -33,6 +34,7 @@ function Home() {
 }
 
 export default Home;
+
 
 
 
