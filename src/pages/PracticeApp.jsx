@@ -72,9 +72,19 @@ useEffect(() => {
     setQuestion(generateQuestion());
   };
 
+
 const handleCheck = () => {
   if (!inputValue) return;
-  const userAnswer = parseFloat(inputValue);
+
+  // NEW: support fraction input
+  let userAnswer;
+  if (inputValue.includes('/')) {
+    const [num, denom] = inputValue.split('/').map(Number);
+    userAnswer = num / denom;
+  } else {
+    userAnswer = parseFloat(inputValue);
+  }
+
   const isCorrect = Math.abs(userAnswer - question.answer) < 0.1;
 
   if (isCorrect) {
@@ -83,11 +93,13 @@ const handleCheck = () => {
     setInputValue('');
     setQuestion(generateQuestion());
   } else {
-    // don't move on — let them try again
     setTotal((t) => t + 1);
     setInputValue('');
   }
 };
+
+
+
 
   return (
     <div className="container">
