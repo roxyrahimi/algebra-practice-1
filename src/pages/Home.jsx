@@ -29,6 +29,9 @@ function Home() {
           <button type="submit">Continue</button>
         </form>
       </div>
+
+<p><a href="/stats">📊 View My Stats</a></p>
+
     </div>
   );
 }

@@ -22,14 +22,32 @@ function PracticeApp() {
   const [correct, setCorrect] = useState(0);
   const [total, setTotal] = useState(0);
 
-  useEffect(() => {
-    if (sessionStarted && timeLeft > 0) {
-      const timer = setInterval(() => {
-        setTimeLeft((prev) => prev - 1);
-      }, 1000);
-      return () => clearInterval(timer);
-    }
-  }, [sessionStarted, timeLeft]);
+
+useEffect(() => {
+  if (sessionStarted && timeLeft > 0) {
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => prev - 1);
+    }, 1000);
+    return () => clearInterval(timer);
+  }
+
+  if (sessionStarted && timeLeft === 0) {
+    const sessionData = {
+      date: new Date().toLocaleString(),
+      correct,
+      total,
+      accuracy: total > 0 ? (correct / total).toFixed(2) : "0.00",
+      speed: ((correct / sessionLength) * 60).toFixed(2),
+    };
+
+    const history = JSON.parse(localStorage.getItem('sessionHistory')) || [];
+    history.push(sessionData);
+    localStorage.setItem('sessionHistory', JSON.stringify(history));
+    setSessionStarted(false);
+  }
+}, [sessionStarted, timeLeft]);
+
+
 
   const startSession = (minutes) => {
     setSessionLength(minutes * 60);
