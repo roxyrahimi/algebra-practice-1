@@ -1,15 +1,38 @@
-export default function Home({ onStart }) {
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+function Home() {
+  const [name, setName] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (name.trim()) {
+      localStorage.setItem('userName', name);
+      navigate('/practice');
+    }
+  };
+
   return (
-    <div className="card">
-      <h1>Fraction & Integer Algebra Trainer</h1>
-      <p style={{ textAlign: 'left' }}>
-        • Pick a 10-, 20-, 30-, or 60-minute session.<br/>
-        • Solve equations with fractional <em>and</em> integer coefficients.<br/>
-        • See accuracy & speed on public and personal leaderboards.
-      </p>
-      <button onClick={onStart}>Start practice →</button>
+    <div className="container">
+      <div className="card">
+        <h1>Welcome to Algebra Trainer</h1>
+        <p>Enter your name or email to begin:</p>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Your name or email"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <button type="submit">Continue</button>
+        </form>
+      </div>
     </div>
   );
 }
+
+export default Home;
+
 
 
