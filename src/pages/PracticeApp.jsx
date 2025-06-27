@@ -40,15 +40,22 @@ function PracticeApp() {
     setQuestion(generateQuestion());
   };
 
-  const handleCheck = () => {
-    if (!inputValue) return;
-    const userAnswer = parseFloat(inputValue);
-    const isCorrect = Math.abs(userAnswer - question.answer) < 0.1;
-    if (isCorrect) setCorrect((c) => c + 1);
+const handleCheck = () => {
+  if (!inputValue) return;
+  const userAnswer = parseFloat(inputValue);
+  const isCorrect = Math.abs(userAnswer - question.answer) < 0.1;
+
+  if (isCorrect) {
+    setCorrect((c) => c + 1);
     setTotal((t) => t + 1);
     setInputValue('');
     setQuestion(generateQuestion());
-  };
+  } else {
+    // don't move on — let them try again
+    setTotal((t) => t + 1);
+    setInputValue('');
+  }
+};
 
   return (
     <div className="container">
