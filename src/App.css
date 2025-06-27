@@ -16,7 +16,7 @@ body {
 }
 
 .card {
-  background: pink;
+  background: #ffdff2;
   border-radius: 12px;
   padding: 2rem;
   margin: 2rem 0;
@@ -33,14 +33,14 @@ input, button, select {
 }
 
 button {
-  background-color: #efbad4;
+  background-color: #ef70ba;
   color: white;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
 button:hover {
-  background-color: #efbad4;
+  background-color: #ef70ba;
 }
 
 h1, h2 {
