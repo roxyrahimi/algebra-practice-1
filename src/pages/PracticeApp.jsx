@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { db } from '../firebase';
+import { collection, addDoc } from 'firebase/firestore';
+
+
 
 function generateQuestion() {
   let a, b, c, d, equation, correctAnswer;
@@ -45,20 +49,29 @@ useEffect(() => {
     return () => clearInterval(timer);
   }
 
-  if (sessionStarted && timeLeft === 0) {
-    const sessionData = {
-      date: new Date().toLocaleString(),
-      correct,
-      total,
-      accuracy: total > 0 ? (correct / total).toFixed(2) : "0.00",
-      speed: ((correct / sessionLength) * 60).toFixed(2),
-    };
 
-    const history = JSON.parse(localStorage.getItem('sessionHistory')) || [];
-    history.push(sessionData);
-    localStorage.setItem('sessionHistory', JSON.stringify(history));
-    setSessionStarted(false);
-  }
+if (sessionStarted && timeLeft === 0) {
+  const sessionData = {
+    user: name,
+    date: new Date().toISOString(),
+    correct,
+    total,
+    accuracy: total > 0 ? (correct / total).toFixed(2) : "0.00",
+    speed: ((correct / sessionLength) * 60).toFixed(2),
+  };
+
+  const history = JSON.parse(localStorage.getItem('sessionHistory')) || [];
+  history.push(sessionData);
+  localStorage.setItem('sessionHistory', JSON.stringify(history));
+
+  // 🔥 Save to Firestore
+  addDoc(collection(db, 'sessions'), sessionData);
+
+  setSessionStarted(false);
+}
+
+
+
 }, [sessionStarted, timeLeft]);
 
 
